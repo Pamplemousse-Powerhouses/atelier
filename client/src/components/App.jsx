@@ -1,5 +1,5 @@
 import React from 'react';
-import RatingsReviews from './RatingsReviews/RatingsReviews.jsx';
+import RatingsReviews from './RatingsReviews/RatingsReviews';
 
 export default function App() {
   return (

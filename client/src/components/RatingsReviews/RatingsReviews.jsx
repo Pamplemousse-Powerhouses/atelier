@@ -1,7 +1,6 @@
 import React from 'react';
 
-export default function RatingsReviews () {
-
+export default function RatingsReviews() {
   return (
     <div>
       <div>
@@ -25,5 +24,5 @@ export default function RatingsReviews () {
         <h2> --- Write New Review --- </h2>
       </div>
     </div>
-  )
+  );
 }
