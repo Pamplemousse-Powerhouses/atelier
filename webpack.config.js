@@ -1,37 +1,35 @@
 const path = require('path');
 
-const SRC_DIR = path.join(__dirname, '/client/src');
-const DIST_DIR = path.join(__dirname, '/client/dist');
-
 module.exports = {
-  mode: 'development',
-  entry: `${SRC_DIR}/index.js`,
+  entry: path.join(__dirname, './client/src/index.jsx'),
   output: {
+    path: path.join(__dirname, './client/dist'),
     filename: 'bundle.js',
-    path: DIST_DIR,
   },
   devtool: 'source-map',
+  resolve: {
+    extensions: ['', '.js', '.jsx'],
+  },
+  plugins: [],
   module: {
     rules: [
       {
-        test: /\.(js|jsx)?/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            presets: [
-              '@babel/preset-env',
-              '@babel/preset-react',
-            ],
-            plugins: [
-              ['@babel/plugin-transform-runtime',
-                {
-                  regenerator: true,
-                },
-              ],
-            ],
+            presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
+      },
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /.(jpe?g|png|gif|svg)$/i,
+        use: 'file-loader',
       },
     ],
   },
