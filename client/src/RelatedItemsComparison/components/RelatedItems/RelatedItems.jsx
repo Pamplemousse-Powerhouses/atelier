@@ -1,15 +1,20 @@
 import React from 'react';
 import ProductCard from '../ProductCard/ProductCard';
+import { Title, Carousel } from '../../styles';
 
 export default function RelatedItems() {
   return (
-    <div className="related-items-container">
-      <h3>Related Items</h3>
-      <ul>
+    <div>
+      <Title>Related Items</Title>
+      <Carousel>
         <ProductCard />
-        <li>use map to</li>
-        <li>render cards</li>
-      </ul>
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </Carousel>
     </div>
   );
 }

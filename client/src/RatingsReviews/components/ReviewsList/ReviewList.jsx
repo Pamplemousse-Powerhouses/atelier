@@ -1,5 +1,5 @@
 import React from 'react';
-import ReviewTile from './IndividualReviewTile/IndividualReviewTile';
+import ReviewTile from './ReviewTile';
 import reviewsTestData from '../../testData/reviews.json';
 
 export default function ReviewList() {

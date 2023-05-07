@@ -1,14 +1,21 @@
 import React from 'react';
 import AddItemToOutfit from './AddItemToOutfit';
+import ProductCard from '../ProductCard/ProductCard';
+import { Title, Carousel } from '../../styles';
 
 export default function YourOutfit() {
   return (
-    <div className="your-outfit-container">
-      <AddItemToOutfit />
-      <ul>
-        <li>this list is empty by default</li>
-        <li>user can add items to list</li>
-      </ul>
+    <div>
+      <Title>Your Outfit</Title>
+      <Carousel>
+        <AddItemToOutfit />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+        <ProductCard />
+      </Carousel>
     </div>
   );
 }
