@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+
 import ReviewTile from './ReviewTile';
-import reviewsTestData from '../../testData/reviews.json';
 
 export default function ReviewList() {
-  const reviewTileMap = reviewsTestData.results.map((review) => (
+  const reviews = useSelector((state) => state.ratingsReviews.reviews);
+
+  const reviewTileMap = reviews.results.map((review) => (
     <ReviewTile
       key={review.review_id}
       id={review.review_id}
