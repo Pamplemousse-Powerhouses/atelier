@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import testMetaData from '../../testData/metaData.json';
+import { useSelector } from 'react-redux';
+
 import StarRating from '../../../components/StarRating';
 import RatingBreakdownBar from './RatingBreakdownBar';
 import CharBreakdownBar from './CharBreakdownBar';
@@ -34,9 +35,11 @@ export default function RatingBreakdown({
   ...props
 }) {
   // TODO: update testData variable to legit data for implementation
+  const metadata = useSelector((state) => state.ratingsReviews.meta);
+  // const [breakdown, setBreakdown] = useState("");
 
   // Calculate the average rating to the nearest decimal
-  const { ratings } = testMetaData;
+  const { ratings } = metadata;
   const ratingAvg = () => {
     const result = {};
     const ratingValues = Object.keys(ratings);
@@ -48,7 +51,7 @@ export default function RatingBreakdown({
       totalNumOfRatings += Number(ratings[ratingValue]);
     }
 
-    result.avgRating = Number((total / totalNumOfRatings).toFixed(1));
+    result.avgRating = Number((total / totalNumOfRatings)).toFixed(1);
 
     const ratingBreakdown = {};
     for (let i = 0; i < ratingValues.length; i += 1) {
@@ -60,19 +63,21 @@ export default function RatingBreakdown({
 
     return result;
   };
-
   const breakdown = ratingAvg();
 
   // Calculate the average rating to the nearest decimal
-  const { recommended } = testMetaData;
+  const { recommended } = metadata;
   const recommendPercent = () => {
-    const total = Number(recommended.true) + Number(recommended.false);
-    const result = Number((recommended.true / total).toFixed(2));
-    return result;
+    if (recommended !== undefined) {
+      const total = Number(recommended.true) + Number(recommended.false);
+      const result = Number((recommended.true / total).toFixed(2));
+      return result * 100;
+    }
+    return 'Error';
   };
 
   // Breakout Characteristic data from MetaData
-  const { characteristics } = testMetaData;
+  const { characteristics } = metadata;
 
   return (
     <div className="RatingBreakdown" {...props}>
@@ -84,7 +89,7 @@ export default function RatingBreakdown({
       </StyledRatingsOverview>
 
       <StyledRecomended className="Recommended">
-        {`${recommendPercent() * 100}% of reviews recommended this product`}
+        {`${recommendPercent()}% of reviews recommended this product`}
       </StyledRecomended>
 
       <RatingBreakdownBar

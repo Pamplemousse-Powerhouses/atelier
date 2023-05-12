@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+
 import ReviewList from './components/ReviewsList/ReviewList';
 import RatingBreakdown from './components/RatingBreakdown/RatingBreakdown';
 import Button from '../components/ui/Button';
 import SortOptions from './components/SortOptions/SortOptions';
 import WriteNewReview from './components/WriteNewReview/WriteNewReview';
+import Icons from '../components/Icons';
+
+import { fetchReviews, fetchMetadata } from './actions/index';
 
 const StyledFlex = styled.div`
   display: flex;
@@ -36,14 +41,24 @@ const StyledAddAReviewButton = styled(Button)`
   }
 `;
 
+const StyledLoading = styled.div`
+  margin: 50px auto;
+  text-align: center;
+  color: gray;
+`;
+
 export default function RatingsReviews() {
   const [showModal, setShowModal] = React.useState(false);
 
-  const addReview = () => {
-    console.log(showModal);
-    setShowModal(!showModal);
-    return <WriteNewReview />;
-  };
+  const productId = useSelector((state) => state.product.data.id);
+  const rloading = useSelector((state) => state.ratingsReviews.rloading);
+  const mloading = useSelector((state) => state.ratingsReviews.mloading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchMetadata(productId));
+    dispatch(fetchReviews(productId));
+  }, [productId]);
 
   return (
     <div>
@@ -51,17 +66,28 @@ export default function RatingsReviews() {
         RATINGS & REVIEWS
       </StyledRatingsReviews>
       <StyledFlex>
-        <StyledRatingBreakdown />
-        <StyledReviewList>
-          <SortOptions />
-          <ReviewList />
-          <StyledFlex>
-            <Button variant="medium" />
-            <StyledMoreReviewButton variant="large"> MORE REVIEWS </StyledMoreReviewButton>
-            <WriteNewReview showModal={showModal} setShowModal={setShowModal} />
-            <StyledAddAReviewButton variant="large-add" onClick={addReview}> ADD A REVIEW </StyledAddAReviewButton>
-          </StyledFlex>
-        </StyledReviewList>
+        {
+          rloading
+            ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
+            : <StyledRatingBreakdown />
+        }
+
+        {
+          mloading
+            ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
+            : (
+              <StyledReviewList>
+                <SortOptions />
+                <ReviewList />
+                <StyledFlex>
+                  <StyledMoreReviewButton variant="large"> MORE REVIEWS </StyledMoreReviewButton>
+                  <WriteNewReview showModal={showModal} setShowModal={setShowModal} />
+                  <StyledAddAReviewButton variant="large-add" onClick={() => setShowModal(!showModal)}> ADD A REVIEW </StyledAddAReviewButton>
+                </StyledFlex>
+              </StyledReviewList>
+            )
+        }
+
       </StyledFlex>
     </div>
   );

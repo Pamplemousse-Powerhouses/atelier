@@ -10,12 +10,11 @@ const StyledRatingBreakdownBar = styled.div`
 export default function RatingBreakdownBar({
   RatingBreakdown,
 }) {
-  const ratingBreakdownKeys = Object.keys(RatingBreakdown);
-  const ratingBreakdownMap = () => ratingBreakdownKeys.map((key) => (
+  const ratingBreakdownMap = () => [1, 2, 3, 4, 5].map((key) => (
     <RatingBar
       key={key}
       rating={key}
-      value={RatingBreakdown[key]}
+      value={RatingBreakdown[key] || 0}
     />
   ));
 
