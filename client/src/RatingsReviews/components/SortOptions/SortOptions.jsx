@@ -1,49 +1,97 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchReviews } from '../../actions/index';
 // import metaData from '../../testData/metaData.json';
 
-const StyledSortedOptions = styled.div`
+const StyledInline = styled.div`
   font-size: 150%;
+  display: inline;
+`;
+
+const StyledDropdown = styled(StyledInline)`
   position: relative;
   display: inline-block;
 `;
 
-const StyledDropdown = styled.div`
+const StyledDropdownContent = styled.div`
   display: none;
   position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
+  background-color: #f9f9f9;
+  font-size: 100%;
+  min-width: 10%;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  padding: 0.5em;
   z-index: 1;
 
-  & div {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  &:hover .dropdown-content {
+  ${StyledDropdown}:hover & {
     display: block;
   }
 `;
 
+const StyledOptions = styled.div`
+  margin: 0.5em;
+  &:hover {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+`;
+
+const StyledCurrentOptions = styled.div`
+  text-decoration: underline;
+  cursor: pointer;
+  &::after {
+    font-family: "Font Awesome 5 Free";
+    content: '\uf078';
+  }
+`;
+
 export default function SortOptions() {
-  const ReviewsNum = 286;
+  const ReviewsNum = useSelector((state) => state.ratingsReviews.reviews.results.length);
+  const productId = useSelector((state) => state.product.data.id);
+  const reviewViewLength = useSelector((state) => state.ratingsReviews.reviewViewLength);
+
+  const dispatch = useDispatch();
+
+  const [currentOption, setCurrentOption] = useState('Relevance');
   const sortOptions = ['Relevance', 'Helpful', 'Newest'];
 
+  const allowedOptions = sortOptions.map((option) => {
+    if (option !== currentOption) {
+      return (
+        <StyledOptions onClick={() => { setCurrentOption(option); }}>
+          {option}
+        </StyledOptions>
+      );
+    }
+    return undefined;
+  });
+
+  const parsedOption = () => {
+    if (currentOption === 'Relevance') {
+      return 'relevant';
+    }
+    return currentOption.toLowerCase();
+  };
+
+  useEffect(() => {
+    dispatch({ type: '@reviews/SET_SORT_OPTION', payload: parsedOption() });
+    dispatch(fetchReviews(productId, parsedOption(), undefined, reviewViewLength));
+  }, [currentOption]);
+
   return (
-    <StyledSortedOptions>
-      {`${ReviewsNum} reviews, sorted by `}
-      <StyledDropdown className="dropdown">
-        <div className="dropdown-content">
-          {sortOptions.map((option) => (
-            <div>
-              {option}
-            </div>
-          ))}
-        </div>
+    <>
+      <StyledInline>
+        {`${ReviewsNum} reviews, sorted by `}
+      </StyledInline>
+      <StyledDropdown>
+        <StyledCurrentOptions>
+          { currentOption }
+        </StyledCurrentOptions>
+        <StyledDropdownContent>
+          {allowedOptions}
+        </StyledDropdownContent>
       </StyledDropdown>
-    </StyledSortedOptions>
+    </>
   );
 }

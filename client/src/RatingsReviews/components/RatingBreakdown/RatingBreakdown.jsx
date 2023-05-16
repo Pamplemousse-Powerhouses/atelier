@@ -10,8 +10,8 @@ import CharBreakdownBar from './CharBreakdownBar';
 const StyledRatingsOverview = styled.div`
   display: flex;
   flex-direction: row;
-  position: relative;
-  top: -1%;
+  position: static;
+  margin-top: -3%;
 `;
 
 const StyledRating = styled(StyledRatingsOverview)`
@@ -51,7 +51,7 @@ export default function RatingBreakdown({
       totalNumOfRatings += Number(ratings[ratingValue]);
     }
 
-    result.avgRating = Number((total / totalNumOfRatings)).toFixed(1);
+    result.avgRating = Number((total / totalNumOfRatings).toFixed(1));
 
     const ratingBreakdown = {};
     for (let i = 0; i < ratingValues.length; i += 1) {

@@ -11,6 +11,7 @@ import { fetchReviews } from '../actions/index';
 import testdata from '../testData/reviews.json';
 
 const testState = {
+  reviewViewLength: 2,
   reviews: {
     product: 0,
     page: 0,
@@ -36,6 +37,15 @@ const testState = {
         value: 2.511111,
       },
     },
+  },
+  sortOption: 'relevant', // [newest, helpful, relevant]
+  filter: false,
+  sort: {
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false,
   },
   rloading: true,
   mloading: true,
