@@ -2,22 +2,18 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import ImageThumbnail from './ImageThumbnail';
+import Thumbnail from './Thumbnail_Icon';
 import Icons from '../../../components/Icons';
 
 const StyledDiv = styled.div`
-  width: 110px;
-  /* height: 700px; */
+  /* width: 110px; */
   display: flex;
-  flex-direction: column;
+  /* flex-direction: column; */
   border: solid 3px lightgrey;
   margin 4px;
   border-radius: 5px;
   box-shadow: white 0px 5px 15px;
   background: rgba(122, 111, 107, 0.512);
-  /* opacity:1; */
-  /* margin:2px;
-  padding:5px; */
 `;
 const StyledButtonReplacement = styled.div`
   width: 100%;
@@ -69,9 +65,9 @@ export default function ThumbnailList({ bgHandler, defaultNumber }) {
     newList.map((obj, i) => {
       if (i === 0) {
         newList[i].class = 'selected';
-        // console.log('This is newList in thumbnailist:2', newList[0]);
-        console.log('This got called 1 :');
-        bgHandler(newList[i]);
+        console.log('This is number 3 : ');
+        console.log('This is newList in thumbnailist:2', newList[i]);
+        // bgHandler(newList[i]);
       } else {
         newList[i].class = 'unselected';
       }
@@ -108,12 +104,13 @@ export default function ThumbnailList({ bgHandler, defaultNumber }) {
     setLeftOverList(leftOvr);
   };
   const changeSelected = (event) => {
+    event.stopPropagation();
     const num = Number(event.target.id);
     const change = [...renderList1];
     change.map((obj, i) => {
       if (i === num) {
-        console.log('This got called 2 :');
         bgHandler(change[i]);
+        console.log('This is number 4 : ');
         change[i].class = 'selected';
       } else {
         change[i].class = 'unselected';
@@ -126,14 +123,14 @@ export default function ThumbnailList({ bgHandler, defaultNumber }) {
   return (
     <StyledDiv>
       { newList.length > 7
-        ? <Icons.ChevronUp onClick={rotateUp} />
+        ? <Icons.ChevronLeft onClick={rotateUp} />
         : <StyledButtonReplacement />}
       {/* <Icons.ChevronUp onClick={rotateUp} /> */}
       {isLoading ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
         : (
           <>
             {renderList1.map((img, idx) => (
-              <ImageThumbnail
+              <Thumbnail
                 url={img.url}
                 imgUrl={img.thumbnail_url}
                 key={img.url}
@@ -145,7 +142,7 @@ export default function ThumbnailList({ bgHandler, defaultNumber }) {
           </>
         )}
       { newList.length > 7
-        ? <Icons.ChevronDown onClick={rotateDown} />
+        ? <Icons.ChevronRight onClick={rotateDown} />
         : <StyledButtonReplacement />}
     </StyledDiv>
   );

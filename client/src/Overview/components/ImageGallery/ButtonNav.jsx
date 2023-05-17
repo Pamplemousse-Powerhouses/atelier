@@ -38,12 +38,12 @@ const StyledLeftRightNavigation = styled.div`
 export default function ImageGallery() {
   return (
     <StyledDiv>
-      <StyledExpandButton>
-        <Icons.Expand />
+      <StyledExpandButton data-testid="ExpandButton">
+        <Icons.Expand data-testid="ExpandIcon" />
       </StyledExpandButton>
       <StyledLeftRightNavigation>
-        <Icons.ArrowLeft />
-        <Icons.ArrowRight />
+        <Icons.ArrowLeft data-testid="LeftIcon" />
+        <Icons.ArrowRight data-testid="RightIcon" />
       </StyledLeftRightNavigation>
     </StyledDiv>
   );

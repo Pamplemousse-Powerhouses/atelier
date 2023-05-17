@@ -66,9 +66,7 @@ export default function ProductCard({
   );
 
   const getRatings = () => (
-    axios({
-      url: '/reviews/meta',
-      method: 'GET',
+    axios.get('/reviews/meta', {
       params: { product_id: id },
     })
   );
@@ -116,7 +114,7 @@ export default function ProductCard({
   }, []);
 
   return (
-    <Card onClick={() => handleClick()}>
+    <Card onClick={() => handleClick()} data-testid="product-card">
       <StyledActionWrap>
         <ActionButton
           id={id}

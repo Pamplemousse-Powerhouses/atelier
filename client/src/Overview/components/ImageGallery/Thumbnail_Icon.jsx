@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+// import Icons from '../../../components/Icons';
 // import Thumbnail from '../../../components/Thumbnail';
 
 const StyledImg = styled.img`
@@ -20,20 +21,20 @@ transition: 0.2s;
   transform: scale(1.05);
 }
 &.selected {
-  border: lime 3px solid;
+  border: 10px solid;
   box-shadow: lime 0px 5px 15px;
   /* transform: scale(1.05); */
 }
 `;
 
-export default function ImageThumbnail(
+export default function Thumbnail(
   {
     imgUrl, url, classname, changeSelected, num,
   },
 ) {
   return (
     <StyledImg
-      data-testid="ImageThumbnails"
+      data-testid="VerticalThumbnails"
       id={num}
       onClick={changeSelected}
       className={classname}
@@ -43,7 +44,7 @@ export default function ImageThumbnail(
   );
 }
 
-ImageThumbnail.propTypes = {
+Thumbnail.propTypes = {
   num: PropTypes.number.isRequired,
   url: PropTypes.string.isRequired,
   imgUrl: PropTypes.string.isRequired,

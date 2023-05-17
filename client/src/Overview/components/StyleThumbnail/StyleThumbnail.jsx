@@ -51,6 +51,10 @@ transition: 0.2s;
   border: lime 3px solid;
   box-shadow: lime 0px 5px 15px;
 }
+.styleFont {
+  font-family: sans-serif;
+  font-size: 10px;
+}
 `;
 export default function StyleThumbnail({
   id,
@@ -87,10 +91,10 @@ export default function StyleThumbnail({
       onClick={changeDefault}
       key={id}
       id={id}
-      data-id={id}
+      data-testid="StyleThumbnails"
       className={className}
     >
-      <p>{name}</p>
+      <p className="styleFont">{name}</p>
     </StyledThumbnail>
   );
 }

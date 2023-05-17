@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import ThumbnailHorizontal from './ThumbnailHorizontal';
 // import ButtonNav from './ButtonNav';
 
 const StyledDiv = styled.div`
@@ -28,16 +29,21 @@ const StyledImageTop = styled.img`
 `;
 
 const StyledButtonContainer = styled.div`
-  width: 200px;
-  height: 200px;
+  /* width: 200px;
+  height: 200px; */
   /* padding: 5px; */
   border: solid 10px black;
   position: absolute;
-  top: 75%;
-  left: 50%;
+  top: 85%;
+  left: 35%;
 `;
 // bgHandler
-export default function ImageGalleryExpand({ bg, onClickHandler }) {
+export default function ImageGalleryExpand({
+  bg,
+  onClickHandler,
+  defaultNumber,
+  bgHandler,
+}) {
   const [posX, setPosX] = useState(-650);
   const [posY, setPosY] = useState(-650);
   const mouse = (e) => {
@@ -88,13 +94,13 @@ export default function ImageGalleryExpand({ bg, onClickHandler }) {
         }
       } else if (y > 200 && y < 600) {
         // console.log(' COL 2 ROW 2: ');
-      } else if (y > 600) {
+      } else if (y > 600 && y < 700) {
         if (posY > -1670) {
           setPosY((prev) => prev - 5);
         }
       }
     }
-    if (x >= 800) {
+    if (x >= 875) {
       if (y < 200) {
         if (posX > -1050 && posY < 0) {
           setPosX((prev) => prev - 5);
@@ -120,6 +126,7 @@ export default function ImageGalleryExpand({ bg, onClickHandler }) {
   };
   return (
     <StyledDiv
+      data-testid="ExpandedView"
       onMouseMove={(e) => mouse(e)}
       onClick={onClickHandler}
     >
@@ -128,7 +135,12 @@ export default function ImageGalleryExpand({ bg, onClickHandler }) {
           <ButtonNav />
         </StyledButtonContainer> */}
       </StyledImageTop>
-      <StyledButtonContainer />
+      <StyledButtonContainer>
+        <ThumbnailHorizontal
+          defaultNumber={defaultNumber}
+          bgHandler={bgHandler}
+        />
+      </StyledButtonContainer>
     </StyledDiv>
   );
 }
@@ -136,5 +148,8 @@ export default function ImageGalleryExpand({ bg, onClickHandler }) {
 ImageGalleryExpand.propTypes = {
   onClickHandler: PropTypes.func.isRequired,
   bg: PropTypes.string.isRequired,
+  defaultNumber: PropTypes.number.isRequired,
+  // bg.url: PropTypes.objectOf(PropTypes.string),
+  bgHandler: PropTypes.func.isRequired,
   // bgHandler: PropTypes.func.isRequired,
 };

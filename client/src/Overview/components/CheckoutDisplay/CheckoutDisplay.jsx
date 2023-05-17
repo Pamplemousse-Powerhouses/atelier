@@ -6,6 +6,8 @@ import PropTypes from 'prop-types';
 import AddToCart from '../AddToCart/AddToCart';
 import StyleSelector from '../StyleSelector/StyleSelector';
 import DropdownContain from '../DropdownContain/DropdownContain';
+import Twitter from './Twitter';
+import Facebook from './Facebook';
 // import StarRating from '../../../components/StarRating';
 
 const StyledDiv = styled.div`
@@ -32,7 +34,16 @@ const StyledProductDetails = styled.div`
   /* border: solid 2px black; */
   margin:2px;
   padding:5px;
-
+.category {
+  font-family: sans-serif;
+}
+.name {
+  font-family: sans-serif;
+  font-size: 40px;
+}
+.slogan {
+  font-family: serif;
+}
 `;
 const StyledSection = styled.section`
   width: 100%;
@@ -41,6 +52,12 @@ const StyledSection = styled.section`
   flex-direction: column;
   /* border: solid 2px blue; */
   padding:2px;
+`;
+const StyledSocialMedia = styled.section`
+  width: 100%;
+  height: 30px;
+  display: flex;
+  align-items: center;
 `;
 
 export default function ProductDisplay({
@@ -65,13 +82,16 @@ export default function ProductDisplay({
     <StyledDiv>
       <StyledProductDetails>
         {/* <StarRating rating={3} className="StarRating" /> */}
-        <p>{currentItem.category}</p>
+        <p className="category">{currentItem.category}</p>
         <div>
-          <p>{currentItem.name}</p>
-          <p>{currentItem.default_price}</p>
+          <p className="name">{currentItem.name}</p>
+          <p className="defaultprice">{currentItem.default_price}</p>
         </div>
-        <p>{currentItem.slogan}</p>
-        <p>Social Media links</p>
+        <p className="slogan">{currentItem.slogan}</p>
+        <StyledSocialMedia>
+          <Twitter />
+          <Facebook />
+        </StyledSocialMedia>
       </StyledProductDetails>
       <StyleSelector
         defaultHandler={defaultHandler}

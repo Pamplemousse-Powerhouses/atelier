@@ -40,6 +40,7 @@ export default function QuantityDropdown({ defaultNumber, currentValue }) {
   });
   useEffect(() => {
     if (defaultNumber !== 1) {
+      console.log('This is default number : ', defaultNumber);
       const value = styles.filter((element) => element.style_id === defaultNumber);
       setDropdownValue(value[0].skus);
     }
@@ -80,6 +81,7 @@ export default function QuantityDropdown({ defaultNumber, currentValue }) {
             name="Countries"
             onChange={(e) => handleChange(e)}
             value={quantityValue}
+            data-testid="QuantityDropdown"
           >
             <option value="Quantity">Quantity</option>
             {mapValues.map((item) => (

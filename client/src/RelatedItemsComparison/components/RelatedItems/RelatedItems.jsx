@@ -17,9 +17,10 @@ export default function RelatedItems({ chevronClickHandler, handleStarClick }) {
   const [showLeftChevron, setShowLeftChevron] = useState(false);
   const [showRightChevron, setShowRightChevron] = useState(false);
   const [viewIndex, setViewIndex] = useState(0);
-  const productId = useSelector((state) => state.product.data.id);
   const symbol = 'EmptyStar';
   const carouselId = 'related-carousel';
+
+  const productId = useSelector((state) => state.product.data.id);
 
   useEffect(() => {
     if (productId) {

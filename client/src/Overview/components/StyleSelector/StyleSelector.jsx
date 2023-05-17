@@ -40,6 +40,8 @@ export default function StyleSelector({
   // defaultNumber,
   defaultNumberHandler,
 }) {
+  // console.log('defaultHandler', defaultHandler);
+  // console.log('defaultNumberHandler', defaultNumberHandler);
   const [renderList1, setRenderList1] = useState([]);
   const [leftOverList, setLeftOverList] = useState([]);
   const [listToMap, setListToMap] = useState([]);
@@ -48,12 +50,13 @@ export default function StyleSelector({
   // let list = [];
   const styles = useSelector((state) => {
     if (state.overview.productStyles.styles.results) {
+      console.log('This is state', state);
       // setRenderList(list);
       return state.overview.productStyles.styles.results;
     }
     return [];
   });
-  // console.log(renderList1);
+  console.log('This is styles data: ', styles);
   const getPhotoList = (style) => {
     if (style.length === 0) {
       return [];
@@ -132,17 +135,18 @@ export default function StyleSelector({
     setLeftOverList(leftOvr);
   };
   return (
-    <StyledSurround>
+    <StyledSurround data-testid="StyleSelector">
       {isLoading ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
         : (
           <>
             <StyledHeader>STYLE SELECTED</StyledHeader>
             <StyledThumbnailGrid>
-              {listToMap.map((styletype) => (
+              {listToMap.map((styletype, i) => (
                 <StyleThumbnail
                   className={`${styletype['default?']}`}
                   // styletype={styletype}
                   // default={}
+                  data-testid={`styleSelector${i}`}
                   name={styletype.name}
                   key={styletype.style_id}
                   id={styletype.style_id}

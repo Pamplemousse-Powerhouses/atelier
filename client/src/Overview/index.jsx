@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 // import PropTypes from 'prop-types';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import ProductDisplay from './components/ProductDisplay/ProductDisplay';
 import ProductInfo from './components/ProductInfo/ProductInfo';
@@ -24,7 +24,14 @@ export default function Overview() {
   // setProduct(40344);
   // 40344,40345, 40346, 40347, 40348
   // console.log(setProduct);
-  const product = 40344;
+  // const product = 40344;
+  const product = useSelector((state) => {
+    if (state.product.data.id) {
+      console.log('This is product data id:', state.product.data.id);
+      return state.product.data.id;
+    }
+    return 40344;
+  });
   useEffect(() => {
     dispatch({ type: '@styles/FETCH_DATA' });
     axios.get(`/products/${product}/styles`)
@@ -36,20 +43,22 @@ export default function Overview() {
       .catch((error) => {
         dispatch({ type: '@styles/FETCH_FAILED', payload: error.message });
       });
-  }, [dispatch]);
+  }, []);
   const onClickHandler = useCallback(() => {
     setRenderCheckout(!renderCheckout);
   });
   const bgHndle = (val) => {
     setBgImg(val.url);
   };
+  console.log('This is background image : ', bgImg);
   // console.log('This is default NUMBER: ', defaultNumber);
   // console.log('This is default list', defaultList);
   return (
-    <Section>
+    <Section data-testid="index">
       { renderCheckout
         ? (
           <ProductDisplay
+            data-testid="ProductDisplay"
             product={product}
             defaultList={defaultList}
             defaultHandler={setDefaultList}
@@ -60,7 +69,14 @@ export default function Overview() {
             onClickHandler={onClickHandler || (() => {})}
           />
         )
-        : <ImageGalleryExpand bg={bgImg} onClickHandler={onClickHandler} />}
+        : (
+          <ImageGalleryExpand
+            bg={bgImg}
+            onClickHandler={onClickHandler}
+            defaultNumber={defaultNumber}
+            bgHandler={bgHndle}
+          />
+        )}
       <ProductInfo />
     </Section>
   );

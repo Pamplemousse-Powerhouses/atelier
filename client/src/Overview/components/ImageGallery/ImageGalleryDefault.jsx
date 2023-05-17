@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ButtonNav from './ButtonNav';
 import ThumbnailList from './ThumbnailList';
+import Icons from '../../../components/Icons';
 
 const StyledDiv = styled.div`
   /* width: 60%; */
@@ -10,7 +11,7 @@ const StyledDiv = styled.div`
   height: 98%;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
+  cursor: {Icons.MagnifyPlus};
   background: url(${(props) => props.bg});
   background-position: center top;
   background-repeat: no-repeat;
@@ -20,6 +21,9 @@ const StyledDiv = styled.div`
   /* border: solid 2px black; */
   /* margin:2px;
   padding:5px; */
+  :hover{
+    cursor: ${(props) => props.pointer};
+  }
 `;
 const StyledImageTop = styled.div`
   width: 100%;
@@ -55,7 +59,11 @@ export default function ImageGalleryDefault({
 }) {
   // console.log('This is bg', bg);
   return (
-    <StyledDiv className="checker" bg={bg}>
+    <StyledDiv
+      className="checker"
+      bg={bg}
+      pointer={Icons.MagnifyPlus}
+    >
       <StyledImageTop className="top">
         <StyledthumbnailContainer>
           <ThumbnailList

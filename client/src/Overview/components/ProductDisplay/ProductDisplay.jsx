@@ -31,7 +31,7 @@ export default function ProductDisplay({
   //   return state.overview.productStyles.styles.results;
   // });
   return (
-    <StyledDiv>
+    <StyledDiv data-testid="ProductDisplay">
       <ImageGalleryDefault
         bg={bg}
         // defaultHandler={defaultHandler}

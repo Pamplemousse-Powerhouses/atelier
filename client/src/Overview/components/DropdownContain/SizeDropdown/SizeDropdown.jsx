@@ -49,6 +49,7 @@ export default function SizeDropdown({ defaultNumber, setCurrentValue }) {
       setDropdownValue(value[0].skus);
     }
     const reArrange = Object.entries(dropDownValue);
+    console.log('This is rearrange', reArrange);
     const listToMap = reArrange.map((node, idx) => (
       {
         sku: Number(reArrange[idx][0]),
@@ -61,17 +62,22 @@ export default function SizeDropdown({ defaultNumber, setCurrentValue }) {
     // for ( let number of dropDownValue) {
 
     // }
+    console.log('this is list to map', listToMap);
     setMapValues(listToMap);
   }, [defaultNumber, dropDownValue]);
   // console.log('This is dropdown:', dropDownValue);
   const handleChange = (e) => {
     // console.log('HandleChange value', e.target.value);
     const size = e.target.value;
+    // console.log('This is the key', e.target.key);
+    // console.log('Dropdownvalue: ', dropDownValue);
     setCurrentValue(size);
     setQuantityValue(size);
   };
   return (
-    <StyledDiv>
+    <StyledDiv
+      data-testid="SizeDropdown"
+    >
       {isLoading ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
         : (
           <StyledSelect
