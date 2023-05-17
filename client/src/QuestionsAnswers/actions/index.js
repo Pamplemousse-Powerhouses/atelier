@@ -32,7 +32,7 @@ export const postQuestion = (productId, question) => (dispatch) => {
       dispatch({ type: '@questions/ADD_QUESTIONS', payload: [question] });
     })
     .then(() => {
-      dispatch(fetchInitialQuestions(productId));
+      dispatch(fetchMoreQuestions(productId));
     })
     .catch(({ message }) => dispatch({ type: '@questions/FETCH_FAILED', payload: message }));
 };
@@ -44,7 +44,7 @@ export const postAnswer = (productId, questionId, answer) => (dispatch) => {
       dispatch({ type: '@answers/ADD_ANSWER', payload: answer });
     })
     .then(() => {
-      dispatch(fetchInitialQuestions(productId));
+      dispatch(fetchMoreQuestions(productId));
     })
     .catch(({ message }) => dispatch({ type: '@questions/FETCH_FAILED', payload: message }));
 };
