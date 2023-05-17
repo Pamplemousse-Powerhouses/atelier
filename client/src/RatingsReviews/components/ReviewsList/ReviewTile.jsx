@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+
 import NameDate from '../../../components/NameDate';
 import StarRating from '../../../components/StarRating';
 import Divider from '../../../components/Divider';
 import Report from '../../../components/Report';
 import Helpful from '../../../components/Helpful';
 import Response from './Response';
+import Thumbnail from '../../../components/Thumbnail';
+import Popup from '../../../components/Popup';
+
+import { putHelpfulReport } from '../../actions/index';
 
 // Example Review Object
 // {
@@ -26,6 +32,18 @@ import Response from './Response';
 //       }
 //   ]
 // }
+
+const StyledFlex = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding-left: 1%;
+`;
+
+const StyledImg = styled.img`
+  min-height: 40%;
+  max-width: 100%;
+  object-fit: contain;
+`;
 
 const StyledUserInfo = styled.div`
   display: flex;
@@ -52,6 +70,8 @@ const StyledSummary = styled.div`
 `;
 
 const StyledBody = styled.div`
+  overflow: hidden;
+  overflow-wrap: break-word;
   padding-bottom: 2%;
 `;
 
@@ -71,6 +91,7 @@ const StyledReviewTile = styled.div`
 `;
 
 export default function ReviewTile({
+  id,
   rating,
   summary,
   recommend,
@@ -79,13 +100,70 @@ export default function ReviewTile({
   date,
   reviewerName,
   helpfulness,
-  // photos,
+  photos,
   className,
 }) {
   const hasResponse = () => response !== null;
+  const hasPhotos = () => photos.length > 0;
+  const [clickedYes, setClickedYes] = useState(false);
+  const [helpfulnessCount, setHelpfulness] = useState(helpfulness);
+  const [clickedReport, setClickedReport] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const modalRef = React.useRef();
+  const handleCloseModal = () => modalRef.current.closeModal();
+  const handleOpenModal = () => modalRef.current.openModal();
+
+  const photoMap = photos.map((photo) => (
+    <div>
+      <Thumbnail
+        src={photo.url}
+        key={photo.id}
+        onClick={handleOpenModal}
+      />
+      <Popup
+        ref={modalRef}
+        title={[summary]}
+      >
+        <StyledImg
+          src={photo.url}
+          handleCloseModal={handleCloseModal}
+        />
+      </Popup>
+    </div>
+  ));
+
+  const handleClickYes = () => {
+    if (!clickedYes) {
+      setClickedYes(true);
+      dispatch(putHelpfulReport(id, 'helpful'))
+        .then(() => {
+          setHelpfulness(helpfulnessCount + 1);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setClickedYes(false);
+        });
+    }
+  };
+
+  const handleClickReport = () => {
+    if (!clickedReport) {
+      setClickedReport(true);
+      dispatch(putHelpfulReport(id, 'report'))
+        .then(() => {
+          setHelpfulness(helpfulnessCount + 1);
+        })
+        .catch((error) => {
+          console.log(error.message);
+          setClickedReport(false);
+        });
+    }
+  };
 
   return (
-    <StyledReviewTile className={`${className} ReviewTile`}>
+    <StyledReviewTile key={id} className={`${className} ReviewTile`}>
       <StyledUserInfo>
         <StyledStarRating rating={rating} className="StarRating" />
         <StyledNameDate className="NameDate">
@@ -99,14 +177,10 @@ export default function ReviewTile({
         </StyledNameDate>
       </StyledUserInfo>
       <StyledSummary className="Summary">
-        {' '}
         {summary}
-        {' '}
       </StyledSummary>
       <StyledBody className="Body">
-        {' '}
         {body}
-        {' '}
       </StyledBody>
       {
         recommend
@@ -118,18 +192,34 @@ export default function ReviewTile({
           ? <StyledResponse className="Response" response={response} />
           : ''
       }
+      {
+        hasPhotos
+          ? (
+            <StyledFlex>
+              { photoMap }
+            </StyledFlex>
+          )
+          : ''
+      }
       <Divider>
-        <Helpful className="Helpful" helpfulness={helpfulness} />
-        <Report className="Report" />
+        <Helpful
+          className="Helpful"
+          helpfulness={helpfulnessCount}
+          onClick={handleClickYes}
+          clickedYes={clickedYes}
+        />
+        <Report
+          className="Report"
+          onClick={handleClickReport}
+          clickedReport={clickedReport}
+        />
       </Divider>
-      {/* <div>
-        {photos}
-      </div> */}
     </StyledReviewTile>
   );
 }
 
 ReviewTile.propTypes = {
+  id: PropTypes.number.isRequired,
   rating: PropTypes.number.isRequired,
   summary: PropTypes.string.isRequired,
   recommend: PropTypes.bool,
@@ -138,7 +228,10 @@ ReviewTile.propTypes = {
   date: PropTypes.string.isRequired,
   reviewerName: PropTypes.string.isRequired,
   helpfulness: PropTypes.number.isRequired,
-  // photos: PropTypes.array.isRequired,
+  photos: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    url: PropTypes.string,
+  })),
   className: PropTypes.string,
 };
 
@@ -147,4 +240,5 @@ ReviewTile.defaultProps = {
   response: null,
   body: '',
   className: '',
+  photos: [],
 };

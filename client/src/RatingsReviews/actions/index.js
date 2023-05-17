@@ -4,7 +4,7 @@ export const fetchReviews = (
   productId,
   sort = 'relevant',
   page = 1,
-  count = 2,
+  count = 10000,
 ) => (dispatch) => {
   dispatch({ type: '@reviews/FETCH_DATA' });
   if (productId !== undefined) {
@@ -48,3 +48,11 @@ export const fetchMetadata = (
     reject(new Error('There is no product ID.'));
   });
 };
+
+export const putHelpfulReport = (
+  reviewId,
+  type, // helpful, report
+) => () => axios({
+  method: 'PUT',
+  url: `/reviews/${reviewId}/${type}`,
+});
