@@ -39,26 +39,19 @@ const StyledButtonReplacement = styled.div`
 `;
 export default function StyleSelector({
   defaultHandler,
-  // defaultNumber,
   defaultNumberHandler,
 }) {
-  // console.log('defaultHandler', defaultHandler);
-  // console.log('defaultNumberHandler', defaultNumberHandler);
   const [renderList1, setRenderList1] = useState([]);
   const [leftOverList, setLeftOverList] = useState([]);
   const [listToMap, setListToMap] = useState([]);
   const isLoading = useSelector((state) => state.product.isLoading
     || state.overview.productStyles.loading);
-  // let list = [];
   const styles = useSelector((state) => {
     if (state.overview.productStyles.styles.results) {
-      // console.log('This is state', state);
-      // setRenderList(list);
       return state.overview.productStyles.styles.results;
     }
     return [];
   });
-  console.log('This is styles data StyleSelector Line 59: ', styles);
   const getPhotoList = (style) => {
     if (style.length === 0) {
       return [];
@@ -69,15 +62,10 @@ export default function StyleSelector({
   let newList = photoList.slice();
   const photoList1 = getPhotoList(styles);
   const newList1 = photoList1.slice();
-  // console.log(value);
-  // console.log(tempList.unshift(...value));
-  // console.log(tempList);
   const moveDefaultOnLoad = () => {
     const index = newList1.map((e) => e['default?']).indexOf(true);
-    // console.log('this is newList1:', index);
     const tempList = newList1.slice();
     const value = tempList.splice(index, 1);
-    console.log('This is value in styleselector,:', value);
     tempList.unshift(...value);
     newList = tempList;
   };

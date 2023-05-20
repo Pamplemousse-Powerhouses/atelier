@@ -7,7 +7,6 @@ const StyledAside = styled.aside`
   width: 100%;
   height: 20%;
   display: flex;
-  /* border: solid 2px black; */
   border: solid 2px ${(props) => props.theme.textColor};
   padding: 10px;
   background-color:${(props) => props.theme.primaryColor};

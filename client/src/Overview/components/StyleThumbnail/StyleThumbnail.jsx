@@ -5,11 +5,6 @@ import { useSelector } from 'react-redux';
 
 const StyledThumbnail = styled.div`
 background-color: #eee;
-/* display: inline-block;
-margin: 10px 0 0 2%;
-flex-grow: 1; */
-/* height: 100px;
-width: calc(100% * (1/4) - 10px - 1px); */
 width: 80px;
 height: 80px;
 display: flex;
@@ -42,7 +37,6 @@ export default function StyleThumbnail({
   className,
   name,
 }) {
-  // let list = [];
   let list = useSelector((state) => {
     if (state.overview.productStyles.styles.results) {
       list = state.overview.productStyles.styles.results;
@@ -50,16 +44,11 @@ export default function StyleThumbnail({
     }
     return [];
   });
-  // console.log('This is ID in stylethumbnail', id);
-  // console.log('This is STYLETYPE in stylethumbnail', styletype);
-  // const dispatch = useDispatch();
   const changeDefault = (event) => {
     const checker = event.target.innerText;
     list.forEach((element, i) => {
-      // console.log('This is sub [i]: ', temp.styles.results[i]['default?']);
       if (element.name === checker) {
         list[i]['default?'] = true;
-        console.log('This is defaultnumber', list[i].style_id);
         defaultNumberHandler(list[i].style_id);
       }
       if (element.name !== checker) {
@@ -81,7 +70,6 @@ export default function StyleThumbnail({
 }
 
 StyleThumbnail.propTypes = {
-  // styletype: PropTypes.node,
   id: PropTypes.number,
   defaultNumberHandler: PropTypes.func.isRequired,
   name: PropTypes.string,
@@ -89,7 +77,6 @@ StyleThumbnail.propTypes = {
 };
 
 StyleThumbnail.defaultProps = {
-  // styletype: PropTypes.node,
   id: PropTypes.number,
   name: PropTypes.string,
   className: PropTypes.boolean,

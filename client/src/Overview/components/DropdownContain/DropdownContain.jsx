@@ -11,7 +11,6 @@ const StyledDiv = styled.div`
   height: 100px;
   display: flex;
   align-items: center;
-  /* border: solid 2px black; */
   margin:0px;
   padding:0px;
 `;
