@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import ReviewList from './components/ReviewsList/ReviewList';
 import RatingBreakdown from './components/RatingBreakdown/RatingBreakdown';
-import KeywordSearch from './components/KeywordSearch/KeywordSearch';
+// import KeywordSearch from './components/KeywordSearch/KeywordSearch';
 import SortOptions from './components/SortOptions/SortOptions';
 import WriteNewReview from './components/WriteNewReview/WriteNewReview';
 
@@ -161,7 +161,7 @@ export default function RatingsReviews() {
         <p id="ratingsReview" className="Header">
           RATINGS & REVIEWS
         </p>
-        <KeywordSearch className="KeywordSearch" />
+        {/* <KeywordSearch className="KeywordSearch" /> */}
       </div>
 
       <StyledFlex>
@@ -172,7 +172,7 @@ export default function RatingsReviews() {
         }
 
         {
-          rloading
+          mloading
             ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
             : (
               <StyledReviewList>
