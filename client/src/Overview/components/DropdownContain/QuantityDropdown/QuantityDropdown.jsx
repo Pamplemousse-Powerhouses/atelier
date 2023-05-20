@@ -42,7 +42,6 @@ export default function QuantityDropdown({
   const previousVal = [];
   previousVal.push(currentValue);
   useEffect(() => {
-    console.log('This is default nuumber in quantity', defaultNumber);
     if (defaultNumber !== 1) {
       if (defaultNumber !== previousVal.pop()) {
         const value = styles.filter((element) => element.style_id === defaultNumber);

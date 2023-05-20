@@ -55,8 +55,8 @@ export default function AddToCartButton({ sku, num }) {
   return (
     <StyledDiv>
       {disable
-        ? <StyledButton data-testid="button" type="button">Add to Cart</StyledButton>
-        : <StyledButton onClick={() => sendCartData(sku, num)} data-testid="button" type="button">Add to Cart</StyledButton>}
+        ? <StyledButton aria-label="Button" data-testid="button" type="button">Add to Cart</StyledButton>
+        : <StyledButton aria-label="Button" onClick={() => sendCartData(sku, num)} data-testid="button" type="button">Add to Cart</StyledButton>}
     </StyledDiv>
   );
 }

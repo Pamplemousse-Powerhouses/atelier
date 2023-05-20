@@ -16,7 +16,7 @@ const StyledSection = styled.section`
 export default function AddToCart({ sku, num }) {
   return (
     <StyledSection>
-      <AddToCartButton sku={sku} num={num} />
+      <AddToCartButton aria-label="Button" sku={sku} num={num} />
       <AddToFavButton />
     </StyledSection>
   );
