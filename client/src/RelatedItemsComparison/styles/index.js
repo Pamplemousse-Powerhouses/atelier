@@ -5,14 +5,12 @@ const List = styled.div`
  display: grid;
  grid-template-columns: 25% 25% 25% 25%;
  margin: 0 auto;
- position: relative;
  list-style-type: none;
  overflow-x: hidden;
 `;
 
 const Container = styled.div`
   grid-area: 2 / 1 / span 1 / span 4;
-  position: relative;
   align-self: center;
   height: 100%;
   overflow-x: hidden;
@@ -93,7 +91,6 @@ const AddCard = styled(DefaultCard)`
   justify-content: space-around;
   align-items: center;
   width: 90%;
-  z-index: 9;
   margin-left: 1.5rem;
 `;
 
