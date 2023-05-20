@@ -9,17 +9,21 @@ import ImageGalleryExpand from './components/ImageGallery/ImageGalleryExpand';
 const Section = styled.section`
  margin-left: 10%;
   width: 80%;
-  height: 1000px;
+  /* height: 1000px; */
   display: flex;
   flex-direction: column;
   border: solid 2px ${(props) => props.theme.textColor};
   @media(max-width: ${((props) => props.theme.bpMobile)}){
     width: 100%;
-    height: 1600px;
+    margin-left: 1%;
+    margin-right: 1%;
+    /* height: 1600px; */
   }
   @media(max-width: ${((props) => props.theme.bpTablet)})){
     width: 100%;
-    height: 1600px;
+    margin-left: 1%;
+    margin-right: 1%;
+    /* height: 1600px; */
   }
   a {
     /* background-color:${(props) => props.theme.background}; */
