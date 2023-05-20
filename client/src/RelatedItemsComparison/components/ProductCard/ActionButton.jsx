@@ -15,8 +15,12 @@ export default function ActionButton({
     return (
       <Icons.EmptyStar
         onClick={() => handleStarClick(id, name)}
+        onKeyPress={() => handleStarClick(id, name)}
         onMouseEnter={() => handleMouseEnter()}
         onMouseLeave={() => handleMouseLeave()}
+        role="button"
+        tabIndex="0"
+        className="action-button"
       />
     );
   }
@@ -25,8 +29,12 @@ export default function ActionButton({
     return (
       <Icons.Exit
         onClick={() => handleRemoveItemClick(id)}
+        onKeyPress={() => handleRemoveItemClick(id)}
         onMouseEnter={() => handleMouseEnter()}
         onMouseLeave={() => handleMouseLeave()}
+        role="button"
+        tabIndex="0"
+        className="action-button"
       />
     );
   }

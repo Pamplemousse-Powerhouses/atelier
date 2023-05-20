@@ -44,6 +44,11 @@ const StyledActionWrap = styled.div`
     transform: scale(1.5);
     transition: transform 250ms ease-in-out;
   }
+  .action-button:focus {
+    outline: none;
+    transform: scale(1.5);
+    transition: transform 250ms ease-in-out;
+  }
 `;
 
 const StyledNo = styled.div`
@@ -136,7 +141,13 @@ export default function ProductCard({
 
   // ** STRUCTURE ** //
   return (
-    <Card onClick={() => handleClick()} data-testid="product-card">
+    <Card
+      onClick={() => handleClick()}
+      onKeyPress={() => handleClick()}
+      data-testid="product-card"
+      role="button"
+      tabIndex="0"
+    >
       <StyledActionWrap>
         <ActionButton
           id={id}
