@@ -143,6 +143,7 @@ export default function RatingsReviews() {
     dispatch(fetchMetadata(productId));
     dispatch(fetchReviews(productId, sortOption, undefined, 100000));
     setShowMoreReviews(true);
+    dispatch({ type: '@reviews/SET_REVIEWS_VIEWS_LENGTH', payload: 2 });
   }, [productId]);
 
   const fetchAllReviews = () => {
@@ -172,7 +173,7 @@ export default function RatingsReviews() {
         }
 
         {
-          mloading
+          rloading
             ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
             : (
               <StyledReviewList>

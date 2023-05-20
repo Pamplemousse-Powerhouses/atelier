@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchReviews } from '../../actions/index';
-// import metaData from '../../testData/metaData.json';
 
 const StyledInline = styled.div`
   font-size: 150%;
@@ -57,27 +56,35 @@ const StyledCurrentOptions = styled.div`
 export default function SortOptions({ ...props }) {
   const ReviewsNum = useSelector((state) => state.ratingsReviews.reviews.results.length);
   const productId = useSelector((state) => state.product.data.id);
+  const currentOption = useSelector((state) => state.ratingsReviews.sortOption);
 
   const dispatch = useDispatch();
 
-  const [currentOption, setCurrentOption] = useState('Relevance');
   const sortOptions = ['Relevance', 'Helpful', 'Newest'];
 
-  const parsedOption = () => {
-    if (currentOption === 'Relevance') {
-      return 'relevant';
+  const parsedOption = (display, option) => {
+    if (!display) {
+      if (option === 'Relevance') {
+        return 'relevant';
+      }
+      return option.toLowerCase();
     }
-    return currentOption.toLowerCase();
+
+    if (option === 'relevant') {
+      return 'Relevance';
+    }
+    return `${option[0].toUpperCase()}${option.slice(1)}`;
   };
 
   const handleCurrentOptionClick = (option) => {
-    dispatch({ type: '@reviews/SET_SORT_OPTION', payload: parsedOption() });
-    dispatch(fetchReviews(productId, parsedOption(), undefined, 100000));
-    setCurrentOption(option);
+    dispatch(fetchReviews(productId, parsedOption(false, option), undefined, 100000))
+      .then(() => {
+        dispatch({ type: '@reviews/SET_SORT_OPTION', payload: parsedOption(false, option) });
+      });
   };
 
   const allowedOptions = sortOptions.map((option) => {
-    if (option !== currentOption) {
+    if (option !== parsedOption(true, currentOption)) {
       return (
         <StyledOptions onClick={() => { handleCurrentOptionClick(option); }}>
           {option}
@@ -94,7 +101,7 @@ export default function SortOptions({ ...props }) {
       </StyledInline>
       <StyledDropdown>
         <StyledCurrentOptions>
-          { currentOption }
+          { parsedOption(true, currentOption) }
         </StyledCurrentOptions>
         <StyledDropdownContent>
           {allowedOptions}
