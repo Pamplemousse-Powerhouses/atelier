@@ -14,95 +14,30 @@ import Popup from '../components/Popup';
 
 import { fetchReviews, fetchMetadata } from './actions/index';
 
-const StyledFlex = styled.div`
-  display: flex;
-  flex-direction: row;
-  background-color: ${(props) => props.theme.primaryColor};
-  @media (max-width: ${({ theme }) => theme.bpMobile}) {
-    flex-direction: column;
-  }
-`;
-
-const StyledRatingBreakdown = styled(RatingBreakdown)`
-  flex-grow: 1;
-  padding-right: 2.5%;
-  position: sticky;
-  top: 12%;
-  height: min-content;
-  background-color: ${(props) => props.theme.primaryColor};
-  @media (max-width: ${({ theme }) => theme.bpMobile}) {
-    position: static;
-  }
-`;
-
-const StyledReviewList = styled.div`
-  flex-grow: 3;
-  max-width: 66%;
-  padding: 1%;
-  padding-left: 2.5%;
-
-  .SortOptions {
-    background-color: ${(props) => props.theme.primaryColor};
-    position: sticky;
-    top: 12%;
-    padding-bottom: 2%;
-    @media (max-width: ${({ theme }) => theme.bpMobile}) {
-      position: relative;
-    }
-  }
-
-  @media (max-width: ${({ theme }) => theme.bpMobile}) {
-    max-width: 100%;
-    padding: 0%;
-  }
-`;
-
-const StyledMoreReviewButton = styled(Button)`
-  margin-left: 0%;
-  position: sticky;
-  bottom: 2%;
-`;
-
-const StyledAddAReviewButton = styled(Button)`
-  margin-left: 0%;
-  position: sticky;
-  top: 95%;
-  $::after {
-    content: font
-  }
-`;
-
-const StyledLoading = styled.div`
-  margin: 50px auto;
-  text-align: center;
-  color: gray;
-`;
-
-const StyledReviews = styled(ReviewList)`
-  max-height: calc(75vh);
-  overflow-y: auto;
-  @media (max-width: ${({ theme }) => theme.bpMobile}) {
-    max-height: none;
-    overflow-y: none;
-  }
-`;
-
 const StyledContainer = styled.div`
   margin: 0 auto;
   width: 60%;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: ${({ theme }) => theme.bpMobile}) {
     width: 80%;
   }
 
   .RatingsReviewsHeader {
-    display: flex;
     flex-direction: row;
-    margin-bottom: 1em;
+    margin-bottom: 2%;
     align-items: baseline;
     position: sticky;
     top: 9%;
     background-color: ${(props) => props.theme.primaryColor};
+
+    @media (max-width: ${({ theme }) => theme.bpTablet}) {
+      flex-direction: column;
+      position: relative;
+      top: none;
+    }
+
     @media (max-width: ${({ theme }) => theme.bpMobile}) {
       flex-direction: column;
       position: relative;
@@ -115,6 +50,8 @@ const StyledContainer = styled.div`
     font-family: Inter;
     align-self: center;
     flex-grow: 2;
+    position: sticky;
+    top: 9%;
   }
 
   .KeywordSearch {
@@ -126,6 +63,71 @@ const StyledContainer = styled.div`
     }
   }
 
+  .Loading {
+    width: 100%;
+    height:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .RatingsReviewsContent {
+    display: flex;
+    flex-direction: row;
+    gap: 2%;
+
+    @media (max-width: ${({ theme }) => theme.bpMobile}) {
+      flex-direction: column;
+    }
+
+    @media (max-width: ${({ theme }) => theme.bpTablet}) {
+      flex-direction: column;
+    }
+
+    .MetadataContent {
+      height: min-content;
+      min-width: 33%;
+      position: sticky;
+      top: 12%;
+      @media (max-width: ${({ theme }) => theme.bpTablet}) {
+        position: relative;
+      }
+      @media (max-width: ${({ theme }) => theme.bpMobile}) {
+        position: relative;
+      }
+    }
+
+    .ReviewsContent {
+      min-width: 66%;
+
+      .SortOptions {
+        background-color: ${(props) => props.theme.primaryColor};
+        position: sticky;
+        top: 12%;
+        padding-bottom: 2%;
+
+        @media (max-width: ${({ theme }) => theme.bpMobile}) {
+          position: relative;
+        }
+      }
+
+      .ReviewList {
+        z-index: -1;
+        height: calc(65vh);
+        overflow-y: auto;
+        @media (max-width: ${({ theme }) => theme.bpMobile}) {
+          max-height: none;
+          overflow-y: none;
+        }
+      }
+
+      .ReviewButtons {
+        display: flex;
+        flex-direction: row;
+        gap: 1%;
+      }
+    }
+  }
 `;
 
 export default function RatingsReviews() {
@@ -165,36 +167,53 @@ export default function RatingsReviews() {
         {/* <KeywordSearch className="KeywordSearch" /> */}
       </div>
 
-      <StyledFlex>
-        {
-          mloading
-            ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
-            : <StyledRatingBreakdown />
-        }
+      <div className="RatingsReviewsContent">
+        <div className="MetadataContent">
+          {
+            mloading
+              ? (
+                <div className="RatingBreakdown Loading">
+                  <Icons.Loading size="2x" className="fa-spin" />
+                </div>
+              )
+              : <RatingBreakdown className="RatingBreakdwon" />
+          }
+        </div>
 
-        {
-          rloading
-            ? <StyledLoading><Icons.Loading size="2x" className="fa-spin" /></StyledLoading>
-            : (
-              <StyledReviewList>
-                <SortOptions className="SortOptions" />
-                <StyledReviews />
-                <StyledFlex>
-                  {
-                    showMoreReviews
-                      ? <StyledMoreReviewButton variant="large" onClick={fetchAllReviews}> MORE REVIEWS </StyledMoreReviewButton>
-                      : ''
-                  }
-                  <StyledAddAReviewButton variant="large-add" onClick={handleAddReview}> ADD A REVIEW </StyledAddAReviewButton>
-                  <Popup ref={modalRef} titles={['Write Your Review', `About the ${productName}`]}>
-                    <WriteNewReview productId={productId} handleCloseModal={handleCloseModal} />
-                  </Popup>
-                </StyledFlex>
-              </StyledReviewList>
-            )
-        }
+        <div className="ReviewsContent">
 
-      </StyledFlex>
+          <SortOptions className="SortOptions" />
+          {
+            rloading
+              ? (
+                <div className="ReviewList Loading">
+                  <Icons.Loading size="2x" className="fa-spin" />
+                </div>
+              )
+              : <ReviewList className="ReviewList" />
+          }
+
+          <div className="ReviewButtons">
+            {
+              showMoreReviews
+                ? (
+                  <Button variant="large" onClick={fetchAllReviews} class="MoreReviews">
+                    MORE REVIEWS
+                  </Button>
+                )
+                : ''
+            }
+
+            <Button variant="large-add" onClick={handleAddReview} className="AddReview">
+              ADD A REVIEW
+            </Button>
+
+            <Popup ref={modalRef} titles={['Write Your Review', `About the ${productName}`]}>
+              <WriteNewReview productId={productId} handleCloseModal={handleCloseModal} />
+            </Popup>
+          </div>
+        </div>
+      </div>
     </StyledContainer>
   );
 }
