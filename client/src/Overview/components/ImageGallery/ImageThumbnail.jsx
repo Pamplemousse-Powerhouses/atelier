@@ -36,6 +36,7 @@ export default function ImageThumbnail(
       className={classname}
       src={imgUrl}
       url={url}
+      alt="image of product"
     />
   );
 }

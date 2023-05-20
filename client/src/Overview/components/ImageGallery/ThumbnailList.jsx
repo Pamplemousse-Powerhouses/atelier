@@ -123,6 +123,7 @@ export default function ThumbnailList({ bgHandler, defaultNumber }) {
                 num={idx}
                 classname={img.class}
                 changeSelected={changeSelected}
+                aria-label="Button"
               />
             ))}
           </>

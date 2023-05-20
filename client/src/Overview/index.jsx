@@ -47,7 +47,7 @@ export default function Overview() {
     setProduct(productid);
   }
   console.log('This is default Number Index Line 39: ', defaultNumber);
-  // const product = 40344;
+  // const product = 40347;
   useEffect(() => {
     dispatch({ type: '@styles/FETCH_DATA' });
     axios.get(`/products/${product}/styles`)
