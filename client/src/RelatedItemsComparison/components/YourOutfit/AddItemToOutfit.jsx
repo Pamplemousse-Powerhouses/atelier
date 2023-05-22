@@ -16,9 +16,15 @@ export default function AddItemToOutfit({ clickHandler }) {
   const productId = useSelector((state) => state.product.data.id);
 
   return (
-    <AddCard onClick={() => clickHandler(productId)} data-testid="add-card">
+    <AddCard
+      onClick={() => clickHandler(productId)}
+      onKeyPress={() => clickHandler(productId)}
+      role="button"
+      tabIndex="0"
+      data-testid="add-card"
+    >
       <StyledWrapper>
-        <Icons.Plus />
+        <Icons.Plus aria-hidden="true" />
       </StyledWrapper>
     </AddCard>
   );

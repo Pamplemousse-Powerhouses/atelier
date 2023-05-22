@@ -249,8 +249,8 @@ export default function ComparisonModal({
             return <StyledWrap key={feat}>{feat}</StyledWrap>;
           })}
         </StyledCompareAttributes>
-        <StyledXButton>
-          <Icons.X onClick={() => modalOnClose()} />
+        <StyledXButton onClick={() => modalOnClose()} onKeyPress={() => modalOnClose()} tabIndex="0" aria-label="close">
+          <Icons.X aria-hidden="true" />
         </StyledXButton>
       </StyledContent>
     </StyledModal>
